@@ -49,8 +49,8 @@ html_source <- "books.html"
 json_source <- "books.json"
 
 # Example public URL format after uploading to GitHub:
-# html_source <- "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/books.html"
-# json_source <- "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/books.json"
+# html_source <- "https://github.com/sarahcunyms2026-source/DATA607-Week7-HTML-JSON/blob/main/books.html"
+# json_source <- "https://github.com/sarahcunyms2026-source/DATA607-Week7-HTML-JSON/blob/main/books.json"
 ```
 
 ## 3. Read the HTML table into an R data frame
