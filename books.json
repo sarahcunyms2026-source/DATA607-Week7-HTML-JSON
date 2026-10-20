@@ -1,0 +1,26 @@
+[
+  {
+    "title": "R for Data Science, 2nd Edition",
+    "authors": "Hadley Wickham; Mine Çetinkaya-Rundel; Garrett Grolemund",
+    "year": 2023,
+    "publisher": "O'Reilly Media",
+    "isbn": "9781492097396",
+    "subject": "Data Science and Machine Learning"
+  },
+  {
+    "title": "An Introduction to Statistical Learning, 2nd Edition",
+    "authors": "Gareth James; Daniela Witten; Trevor Hastie; Robert Tibshirani",
+    "year": 2021,
+    "publisher": "Springer",
+    "isbn": "9781071614174",
+    "subject": "Data Science and Machine Learning"
+  },
+  {
+    "title": "Hands-On Machine Learning, 3rd Edition",
+    "authors": "Aurélien Géron",
+    "year": 2022,
+    "publisher": "O'Reilly Media",
+    "isbn": "9781098125967",
+    "subject": "Data Science and Machine Learning"
+  }
+]

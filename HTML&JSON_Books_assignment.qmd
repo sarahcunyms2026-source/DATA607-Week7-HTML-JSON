@@ -1,0 +1,97 @@
+---
+title: "DATA 607: Working with HTML and JSON"
+subtitle: "Reading and Comparing Book Data in R"
+author: "Sarah Abdelrahman"
+date: "2026-10-18"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Objective
+
+This assignment demonstrates how to manually represent the same book data in HTML and JSON, load both formats into R data frames, and test whether the results are identical.
+
+## Selected books
+
+I selected three books on **Data Science and Machine Learning**. Both *R for Data Science* and *An Introduction to Statistical Learning* have multiple authors. I recorded six attributes for each book: title, authors, year, publisher, ISBN, and subject.
+
+The HTML file represents the books as rows in a table. The JSON file represents them as an array of book objects. Each object has the same six fields.
+
+**Bibliographic sources:**
+
+- [R for Data Science, 2nd Edition — O'Reilly](https://www.oreilly.com/library/view/r-for-data/9781492097396/)
+- [An Introduction to Statistical Learning, 2nd Edition — Springer](https://link.springer.com/book/10.1007/978-1-0716-1418-1)
+- [Hands-On Machine Learning, 3rd Edition — O'Reilly](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)
+
+## 1. Load required packages
+
+```{r}
+# Install once if necessary:
+# install.packages(c("rvest", "jsonlite", "knitr"))
+library(rvest)
+library(jsonlite)
+library(knitr)
+```
+
+## 2. Specify the HTML and JSON file locations
+
+The files can be read locally while developing the assignment. **Before publishing**, upload both `books.html` and `books.json` to a **public GitHub repository**, then replace the two paths below with their public *raw.githubusercontent.com* URLs and render the report again. This allows anyone to rerun the code without needing the local files.
+
+```{r}
+html_source <- "books.html"
+json_source <- "books.json"
+
+# Example public URL format after uploading to GitHub:
+# html_source <- "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/books.html"
+# json_source <- "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/books.json"
+```
+
+## 3. Read the HTML table into an R data frame
+
+`read_html()` parses the HTML document, `html_element()` selects the table identified as `books`, and `html_table()` extracts the table cells. The `year` column is converted to integer so that its data type matches the JSON data.
+
+```{r}
+html_doc <- read_html(html_source)
+html_books <- html_doc |>
+  html_element("#books") |>
+  html_table(convert = FALSE) |>
+  as.data.frame(stringsAsFactors = FALSE)
+
+html_books$year <- as.integer(html_books$year)
+
+kable(html_books, caption = "Books loaded from HTML")
+```
+
+## 4. Read the JSON file into a separate R data frame
+
+`fromJSON()` reads the JSON array and creates tabular data because every book object uses the same field names.
+
+```{r}
+json_books <- fromJSON(json_source)
+json_books <- as.data.frame(json_books, stringsAsFactors = FALSE)
+
+kable(json_books, caption = "Books loaded from JSON")
+```
+
+## 5. Compare both data frames
+
+`identical()` checks whether both objects have the same structure and values, including column types, row order, and column order. ISBN values are stored as character strings so their digits are preserved.
+
+```{r}
+comparison <- identical(html_books, json_books)
+cat("Are the HTML and JSON data frames identical?", comparison, "\n")
+
+# Fail clearly if the two data sources ever stop matching.
+stopifnot(comparison)
+```
+
+## Conclusion
+
+The same three books were encoded by hand in two different file formats. HTML uses table elements (`<table>`, `<tr>`, and `<td>`), while JSON uses an array (`[]`) of objects (`{}`). R can import both formats using `rvest` and `jsonlite`. The final `identical()` check verifies that both sources produce equivalent R data frames, provided their values, order, and data types match. This exercise builds a foundation for future web scraping and API assignments.
